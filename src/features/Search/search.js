@@ -6,252 +6,164 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  SafeAreaView,
+  Image,
+  Modal
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Product from './src/component/ProductCard';
-import data from './src/services/products';
-  const App = () => {
+import Ionicons from 'react-native-vector-icons/Entypo'
+import Product from '../../component/ProductCard'
+import data from '../../services/products'
+import Search from '../../assets/images/icon/search.svg'
+import Left from '../../assets/images/icon/left.svg'
+import Small from '../../assets/images/icon/small.svg'
+import NonCheck from '../../assets/images/icon/NonCheck.svg'
+import Check from '../../assets/images/icon/check.svg'
+import Tick from '../../assets/images/icon/tick.svg'
+import { styles } from './styles';
+
+  const SearchProduct = (props) => {
   const [clicked,setClicked] = useState(false);
+  const [visible,setVisible] = useState(false);
+  const [modalSelect,setModalSelect] = useState(false);
+
+  const _renderItem=(item)=>{
+    return <Product navigation={props.navigation} item={item}/>
+  }
   return(
     <View style = { styles.Body}> 
-      <View style= {styles.IconRow}> 
-        <View style= {{flexDirection:'row',height:60}}>
-          <Ionicons name= "arrow-back-circle" size= {30} style={{marginLeft:15,marginTop:12}} color={'white'}/>
-          <Text style= {styles.addressText}>Geri Dön</Text>
-        </View> 
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false} >
-      <View style = {styles.trendTitleRow}>
-        <TouchableOpacity style={{flexDirection:'row',height:'100%',width:'50%',alignItems:'center',justifyContent:'center',borderRadius:10}}>         
-          <Icon name="filter" size= {18} color={'rgb(66,39,116)'}/>
-          <Text style={{marginLeft:5}}>Filtrele</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection:'row',height:'100%',width:'50%',alignItems:'center',justifyContent:'center',borderRadius:10}}>  
-          <Icon name="arrow-up" size= {18} color={'rgb(66,39,116)'}/>      
-          <Icon name="arrow-down" size= {18} color={'rgb(66,39,116)'}/>
-          <Text style={{marginLeft:5,color:'black'}}>Sırala</Text>
-        </TouchableOpacity>
-        <View style={styles.verticalLine}></View>
-      </View>
-      <FlatList 
-        data={data}
-        renderItem={Product}
-        numColumns={1}
-        key={item => item.id}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listView}
-      />    
-      </ScrollView>
+      <View style={styles.Container}>
+        <SafeAreaView  style={styles.area}>
+          <TouchableOpacity>
+            <Left /> 
+          </TouchableOpacity>
+          <Text style={styles.title}>Arama</Text>
+        </SafeAreaView>
+        <View style={styles.tabBar}>
+          <TextInput style={styles.input} placeholder="Ürün Ara..." placeholderTextColor="#9C9BA4"/>
+        
+          <TouchableOpacity style={styles.menuRow} onPress={()=>setVisible(true)}>
+              <Ionicons name="menu" color={'#000000'} size={37}/>
+          </TouchableOpacity> 
+          <Search style={styles.search}/> 
+        </View>
+      </View> 
+      <FlatList  
+        data={data} 
+        renderItem={_renderItem} 
+        numColumns={2} 
+        key={item => item.id} 
+        keyExtractor={item => item.id} 
+        contentContainerStyle={styles.listView} 
+      />
+      <Modal transparent={true} visible={visible} animationType="slide" style={styles.modal}>
+        <ScrollView style={styles.modalBody}>
+          <View style={styles.modalContainer}>
+            <View style={styles.tabRow}>
+              <Text style={styles.modalTitle}>Filtreleme ve Sıralama</Text>
+              <TouchableOpacity onPress={()=>setVisible(false)}>
+                <Small />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity onPress={()=>setModalSelect(true)}>
+                <Text style={styles.modalText}>Filtrele</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>setModalSelect(false)} style={styles.mL_30} >
+                <Text style={styles.modalText}>Sırala</Text>
+              </TouchableOpacity>
+            </View>
+            {modalSelect 
+            ?  <>
+                <View style={[styles.selectView,{marginLeft:modalSelect ? 5 : 77}]}></View>
+                <View style={styles.modalLine}></View>
+                <Text style={[styles.modalText,{marginTop:15,marginBottom:5}]}>Fiyat Aralığı</Text>
+                <View style={styles.Row}>
+                  <TextInput style={styles.minInput} placeholder="En Az"/>
+                  <TextInput style={styles.maxInput} placeholder="En Fazla"/>
+                </View>
+                <View style={[styles.modalLine,{marginTop:13}]}></View>
+                <Text style={[styles.modalText,{marginTop:15,marginBottom:5}]}>Renkler</Text>
+                <View style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Mavi</Text>
+                  <Check />
+                </View>
+                <View style={styles.modalLine}></View>
+                <View style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Kırmızı</Text>
+                  <Check />
+                </View>
+                <View style={styles.modalLine}></View>
+                <View style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Sarı</Text>
+                  <Check />
+                </View>
+                <View style={styles.modalLine}></View>
+                <View style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Yeşil</Text>
+                  <Check />
+                </View>
+                <View style={styles.modalLine}></View>
+                <View style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Turuncu</Text>
+                  <Check />
+                </View>
+                <View style={styles.modalLine}></View>
+                <View style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Beyaz</Text>
+                  <Check />
+                </View>
+                <View style={styles.modalLine}></View>
+                <View style={styles.modalLine}></View>
+                <View style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Siyah</Text>
+                  <Check />
+                </View>
+                <View style={styles.modalLine}></View>
+              </>
+              : <>
+                <View style={[styles.selectView,{marginLeft:modalSelect ? 5 : 82}]}></View>
+                <View style={styles.modalLine}></View>
+                
+                <TouchableOpacity style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Fiyata Göre Artan</Text>
+                  <Tick/>
+                </TouchableOpacity>
+                <View style={styles.modalLine}></View>
+                <TouchableOpacity style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Fiyata Göre Azalan</Text>
+                  <Tick/>
+                </TouchableOpacity>
+                <View style={styles.modalLine}></View>
+                <TouchableOpacity style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Ada Göre Artan</Text>
+                  <Tick/>
+                </TouchableOpacity>
+                <View style={styles.modalLine}></View>
+                <TouchableOpacity style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>Ada Göre Azalan</Text>
+                  <Tick/>
+                </TouchableOpacity>
+                <View style={styles.modalLine}></View>
+                <TouchableOpacity style={styles.modalElementRow}>
+                  <Text style={styles.modalSubTitle}>En Yeniler</Text>
+                  <Tick/>
+                </TouchableOpacity>
+                <View style={styles.modalLine}></View>
+                </>}
+            <View style={{flexDirection:'row',marginTop:20,width:'100%',justifyContent:'space-between',paddingHorizontal:20}}>
+              <TouchableOpacity style={{borderRadius:10,backgroundColor:'#F7F6FB',borderColor:'#0C1A30',borderWidth:1,alignItems:'center',justifyContent:'center',width:150,height:50}}>
+                  <Text style={{color:'#0C1A30'}}>Temizle</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{borderRadius:10,backgroundColor:'#3669C9',alignItems:'center',justifyContent:'center',width:150,height:50}}>
+                  <Text style={{color:'white'}}>Kaydet</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </Modal>
     </View>
   )
- }
- const styles = StyleSheet.create({
-    Body:{
-      flex:1,
-      backgroundColor:'#FFFAF5'
-    },
-    listView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems:'center'
-    },
-    IconRow:{
-      width:'100%',
-      height:44,
-      backgroundColor:'rgb(66,39,116)',
-    },
-    cityText:{
-      color:'#FFFFFF',
-      fontSize:16,
-      fontWeight:'bold',
-    },
-    addressText:{
-      color:'#FFFFFF',
-      fontWeight:'700',
-      fontSize:14,
-      lineHeight:14,
-      marginLeft:10,
-      alignSelf:'center',
-      textAlign:'center'
-    },
-    searchBar:{
-      alignItems:'center',
-      backgroundColor:'rgb(66,39,116)',
-      width:'100%',
-      borderBottomLeftRadius:5,
-      borderBottomRightRadius:5,
-    },
-    sliderRow:{
-      marginTop:5,
-      flexDirection:'row',
-      borderRadius:10,
-      alignItems:'center',
-      justifyContent:'space-between',
-      alignSelf:'center',
-      backgroundColor:'white',
-      width:375,
-      height:210
-    },
-    bannerRow:{
-      justifyContent:'center',
-      alignItems:'center'
-    },
-    slideImage:{
-      width:'65%',
-      height:210,
-    },
-    bannerImage:{
-      width:370,
-      height:100,
-      borderRadius:3,
-      marginTop:8
-    },
-    serachButton:{
-      flexDirection:'row',
-      height:100,
-      flex:1,
-      marginBottom:5,
-      paddingBottom:50,
-      shadowColor: '#FD841F',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
-      shadowRadius: 2,
-      elevation: 2,
-    },
-    searchIcon:{
-      marginTop:21.5,
-      marginLeft:10,
-      position:'absolute'
-    },
-    notificationIcon:{
-      marginLeft:65,
-      marginTop:4
-    },
-    messageIcon:{
-      marginLeft:25,
-      marginTop:8
-    },
-    searchText:{
-      width: 370,
-      height:40,
-      backgroundColor: '#FFFFFF',
-      borderRadius:7,
-      marginTop:10,
-      color :'#000000',
-      paddingLeft:30,
-      marginBottom:10,
-    },
-    notificationText:{
-      color:'#FFFFFF',
-      backgroundColor:'red',
-      marginLeft:75,
-      position:'absolute',
-      borderRadius:999,
-      marginTop:0,
-      width:20,
-      height:20,
-      includeFontPadding:false,
-      paddingLeft:2,
-      paddingTop:2,
-      fontWeight:'bold'
-    },
-    messageText:{
-      color:'#FFFFFF',
-      backgroundColor:'red',
-      marginLeft:35,
-      position:'absolute',
-      borderRadius:999,
-      marginTop:2,
-      width:20,
-      height:20,
-      includeFontPadding:false,
-      paddingLeft:2,
-      paddingTop:2,
-      fontWeight:'bold'
-    },
-    trendTitleRow:{
-      flexDirection:'row',
-      borderColor:'rgb(66,39,116)',
-      borderWidth:1,
-      backgroundColor:'#FFFAF5',
-      width:'98%',
-      height:50,
-      borderRadius:10,
-      alignSelf:'center',
-      justifyContent:'space-between',
-      marginTop:10
-    },
-
-    verticalLine:{
-      borderColor:'rgb(66,39,116)',
-      width:10,
-      height:'100%',
-      justifyContent:'center',
-      alignSelf:'center',
-      marginLeft:20
-    },
-
-    trendTitleButton:{
-      marginTop:10,
-      marginLeft:10
-    },
-    trendTitle:{
-      color:'#3E6D9C',
-      fontSize:18,
-      fontWeight:'700'
-    },
-    allButton:{
-      marginLeft:180,
-      marginTop:10,
-    },
-    allButtonText:{
-      color:'rgb(229,50,45)',
-      fontSize:15,
-      fontWeight:'700'
-    },
-    categoryButton:{
-      width:110,
-      height:110,
-      backgroundColor:'white',
-      alignSelf:'center',
-      alignItems:'center',
-      justifyContent:'center',
-      borderRadius:10,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    categoryImage:{
-      height:80,
-      width:80,
-      marginTop:10
-    },
-    categoryRow:{
-      flexDirection:'row',
-      padding:5,
-      alignItems:'center',
-      justifyContent:'space-between',
-      padding:20
-    },
-    categoryText:{
-      backgroundColor:'#FD841F',
-      width:'100%',
-      fontSize:14,
-      lineHeight:14,
-      padding:5,
-      textAlign:'center',
-      borderBottomLeftRadius:5,
-      borderBottomRightRadius:5,
-      color:'white',
-      marginTop:8
-    }
- })
-export default App;
+}
+export default SearchProduct;
