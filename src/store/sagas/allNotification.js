@@ -1,6 +1,6 @@
 import { put, call} from 'redux-saga/effects';
 import { allNotification } from '../../services/method/notification';
-import * as actions from '../actions';
+import * as actions from '../actions/allNotification';
 
 export default function* notifications(action) {
 

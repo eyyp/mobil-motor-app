@@ -12,32 +12,33 @@ import {
   Image,
   Modal
 } from 'react-native';
-import { actions } from '../../store/actions';
-import { filter } from '../../lib/filter';
+import { actions } from '../../../store/actions';
+import filter from '../../../lib/filter'
 
 import Ionicons from 'react-native-vector-icons/Entypo'
-import Product from '../../component/ProductCard'
-import Search from '../../assets/images/icon/search.svg'
-import Left from '../../assets/images/icon/left.svg'
-import Small from '../../assets/images/icon/small.svg'
-import NonCheck from '../../assets/images/icon/NonCheck.svg'
-import Check from '../../assets/images/icon/check.svg'
-import Tick from '../../assets/images/icon/tick.svg'
-import { styles } from './styles';
+import Product from '../../../component/ProductCard'
+import Search from '../../../assets/images/icon/search.svg'
+import Left from '../../../assets/images/icon/left.svg'
+import Small from '../../../assets/images/icon/small.svg'
+import NonCheck from '../../../assets/images/icon/NonCheck.svg'
+import Check from '../../../assets/images/icon/check.svg'
+import Tick from '../../../assets/images/icon/tick.svg'
+import { styles } from './style';
 
-  const SearchProduct = (props) => {
+  const Category = (props) => {
 
     const [clicked,setClicked] = useState(false);
     const [visible,setVisible] = useState(false);
     const [modalSelect,setModalSelect] = useState(false);
     const [search,setSearch] = useState([]);
-    const reducer = useSelector(state=>state.products);
-    const {product} = reducer;
+    const reducer = useSelector(state=>state.categoryProduct);
+    const {categoryP} = reducer;
     const dispatch = useDispatch();
+    
 
     const filterKeyword = (keyword) => {
       keyword = keyword.toLowerCase();
-      setSearch(filter(product,keyword));
+      setSearch(filter(categoryP,keyword));
     }
 
     /*useEffect(()=>{
@@ -45,8 +46,8 @@ import { styles } from './styles';
     },[search])*/
     
   useEffect(()=>{
-    dispatch(actions.getAllProduct());
-    setSearch(product);
+    dispatch(actions.getCategoryProduct(props.param));
+    setSearch(categoryP);
   },[])
 
   return(
@@ -56,7 +57,7 @@ import { styles } from './styles';
           <TouchableOpacity onPress={()=>props.navigation.goBack()}>
             <Left /> 
           </TouchableOpacity>
-          <Text style={styles.title}>Arama</Text>
+          <Text style={styles.title}>Kategori</Text>
         </SafeAreaView>
         <View style={styles.tabBar}>
           <TextInput style={styles.input} placeholder="Ürün Ara..." placeholderTextColor="#9C9BA4" onChangeText={keyword=>{filterKeyword(keyword)}} />
@@ -184,4 +185,4 @@ import { styles } from './styles';
     </View>
   )
 }
-export default SearchProduct;
+export default Category;

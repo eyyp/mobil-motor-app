@@ -1,6 +1,6 @@
 import { put, call} from 'redux-saga/effects';
 import { allApport } from '../../services/method/apport';
-import * as actions from '../actions';
+import * as actions from '../actions/allApport';
 
 export default function* apports(action) {
 

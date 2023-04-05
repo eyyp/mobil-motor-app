@@ -1,6 +1,6 @@
 import { put, call} from 'redux-saga/effects';
 import { allProduct } from '../../services/method/product';
-import * as actions from '../actions';
+import * as actions from '../actions/allProduct';
 
 export default function* products(action) {
 
@@ -8,12 +8,13 @@ export default function* products(action) {
     yield put(actions.enableLoader());
     const response = yield call(allProduct);
     if (response) {
-        yield put(actions.Response(response.data));
-        yield put(actions.disableLoader({}));
+      console.log(response)
+      yield put(actions.Response(response.data));
+      yield put(actions.disableLoader({}));
     } 
     else {
-        yield put(actions.Failed());
-        yield put(actions.disableLoader({}));
+      yield put(actions.Failed());
+      yield put(actions.disableLoader({}));
     }
   } 
   catch (error) {

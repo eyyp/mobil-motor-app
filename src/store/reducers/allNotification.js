@@ -18,7 +18,7 @@ export const allNotification = createReducer(initialState, {
     return {
       ...state,
       status:'response',
-      type : response
+      notification : action.response
     };
   },
 

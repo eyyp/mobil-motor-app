@@ -1,6 +1,6 @@
 import { put, call} from 'redux-saga/effects';
 import { oneProduct } from '../../services/method/product';
-import * as actions from '../actions';
+import * as actions from '../actions/oneProduct';
 
 export default function* productOne(action) {
 

@@ -11,8 +11,12 @@ import Heart from '../assets/images/icon/Heart.svg'
 import ActiveHeart from '../assets/images/icon/ActiveHeart.svg'
 import ActiveHome from '../assets/images/icon/ActiveHome.svg'
 import App from '../features/Home/containers';
+import Apport from '../features/Apport/containers'
 import SearchProduct from '../features/Search/Search';
 import ProductDetail from '../features/Product/containers';
+import Favorites from '../features/Favorite/containers';
+import Category from '../features/Category/containers';
+
 const HomeStack = createNativeStackNavigator();
 
 function HomeStackScreen({ navigation }) {
@@ -23,6 +27,7 @@ function HomeStackScreen({ navigation }) {
       }}>
         <HomeStack.Screen name="Home" component={App} />
         <HomeStack.Screen name="Detail" component={ProductDetail} />
+        <HomeStack.Screen name="Category" component={Category} />
       </HomeStack.Navigator>
     );
   }
@@ -37,6 +42,28 @@ function SearchStackScreen({ navigation }) {
         headerShown: false
       }}>
         <HomeStack.Screen name="Search" component={SearchProduct} />
+      </HomeStack.Navigator>
+    );
+  }
+
+  function ApportStackScreen({ navigation }) {
+
+    return (
+      <HomeStack.Navigator screenOptions={{
+        headerShown: false
+      }}>
+        <HomeStack.Screen name="Apport" component={Apport} />
+      </HomeStack.Navigator>
+    );
+  }
+
+  function FavoriteStackScreen({ navigation }) {
+
+    return (
+      <HomeStack.Navigator screenOptions={{
+        headerShown: false
+      }}>
+        <HomeStack.Screen name="Favorite" component={Favorites} />
       </HomeStack.Navigator>
     );
   }
@@ -74,7 +101,7 @@ const MyTabs = () => {
               : <Icon name="search1" size={25} color="#0C1A30"/>; 
           }
         }}/>
-        <Tab.Screen name="Fırsatlar" component={SearchStackScreen} 
+        <Tab.Screen name="Fırsatlar" component={ApportStackScreen} 
         options={{
           tabBarIcon: ({ focused }) => {
             return focused
@@ -82,7 +109,7 @@ const MyTabs = () => {
               : <Metarial name="ticket-percent-outline" size={25} color="#0C1A30"/>; 
           }
         }}/>
-        <Tab.Screen name="Favorilerim" component={SearchStackScreen} 
+        <Tab.Screen name="Favorilerim" component={FavoriteStackScreen} 
         options={{
           tabBarIcon: ({ focused }) => {
             return focused

@@ -18,7 +18,7 @@ export const allApport = createReducer(initialState, {
     return {
       ...state,
       status:'response',
-      type : response
+      apport : action.response
     };
   },
 

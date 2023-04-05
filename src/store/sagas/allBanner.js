@@ -1,6 +1,6 @@
 import { put, call} from 'redux-saga/effects';
 import { allBanner } from '../reducers/allBanner';
-import * as actions from '../actions';
+import * as actions from '../actions/allBanner';
 
 export default function* banners(action) {
 

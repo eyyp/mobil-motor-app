@@ -15,12 +15,10 @@ import {
 import { styles } from './styles'
 
 import Product from '../../../component/ProductCard'
-import data from '../../../services/products'
 import Bell from '../../../assets/images/icon/bell.svg'
 import Search from '../../../assets/images/icon/search.svg'
 import Banner from '../../../assets/images/banner/svg/banner2.svg'
 import Small from '../../../assets/images/icon/small.svg'
-import axios from 'axios'
 import { actions } from '../../../store/actions'
   const App = (props) => {
     const reducer = useSelector(state=>state.products);
@@ -37,15 +35,14 @@ import { actions } from '../../../store/actions'
   useEffect(()=>{
     dispatch(actions.getAllProduct());
     /*dispatch(actions.getOneProduct(5));
-    dispatch(actions.getAllApport());
+    dispatch(actions.getAllApport());*/
     dispatch(actions.getAllBanner());
-    dispatch(actions.getAllNotification());*/
-    console.log(product);
+    dispatch(actions.getAllNotification());
     /*console.log(oneP);
-    console.log(apport);
+    console.log(apport);*/
     console.log(banner);
-    console.log(notification);*/
-  })
+    console.log(notification);
+  },[])
   const [visible,setVisible] = useState(false);
 
   const _renderItem = (item) =>{
@@ -56,17 +53,22 @@ import { actions } from '../../../store/actions'
     <View style = { styles.Body}> 
       <View style={styles.Container}>
         <SafeAreaView  style={styles.area}>
-          <Text style={styles.title}>Aziz Motor</Text>
+          <Text style={styles.title}>Motosiklet Tanıtım</Text>
         </SafeAreaView>
         <View style={styles.tabBar}>
-          <TextInput style={styles.input} placeholder="Ürün Ara..." placeholderTextColor="#9C9BA4"/>
+          <Image 
+            style={{width:250,height:60,marginLeft:40}}
+            source={require('../../../assets/images/banner/png/banner6.jpg')}
+          />
           <TouchableOpacity onPress={()=>setVisible(true)} style={styles.menuRow}>
             <Bell style={styles.white}/>
           </TouchableOpacity> 
-          <Search style={styles.search}/> 
         </View> 
         <ScrollView style={styles.bannerRow} horizontal={true} showsHorizontalScrollIndicator={false}>
-          <Banner style={styles.banner}/> 
+           <Image 
+                style={styles.banner}
+               
+              />
           <Banner style={styles.banner}/> 
           <Banner style={styles.banner}/>  
         </ScrollView>  
@@ -77,7 +79,7 @@ import { actions } from '../../../store/actions'
           </TouchableOpacity>  
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <View style={styles.categoryCard}>
+          <TouchableOpacity style={styles.categoryCard} onPress={()=>props.navigation.navigate("Category","Motor")}>
             <View style={styles.categoryItem}>
               <Image 
                 style={styles.categoryImage}
@@ -85,8 +87,8 @@ import { actions } from '../../../store/actions'
               />
             </View>
             <Text style={styles.categoryName}>Motosiklet</Text>
-          </View>
-          <View style={styles.categoryCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryCard} onPress={()=>props.navigation.navigate("Category","Lastik")}>
             <View style={styles.categoryItem}>
               <Image 
                 style={styles.categoryImage}
@@ -94,8 +96,8 @@ import { actions } from '../../../store/actions'
               />
             </View>
             <Text style={styles.categoryName}>Lastik</Text>
-          </View>
-          <View style={styles.categoryCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryCard} onPress={()=>props.navigation.navigate("Category","yedek-parca")}>
             <View style={styles.categoryItem}>
               <Image 
                 style={styles.categoryImage}
@@ -103,8 +105,8 @@ import { actions } from '../../../store/actions'
               />
             </View>
             <Text style={styles.categoryName}>Yedek Parça</Text>
-          </View>
-          <View style={styles.categoryCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryCard} onPress={()=>props.navigation.navigate("Category","kask")}>
             <View style={styles.categoryItem}>
               <Image 
                 style={styles.categoryImage}
@@ -112,8 +114,8 @@ import { actions } from '../../../store/actions'
               />
             </View>
             <Text style={styles.categoryName}>Kask</Text>
-          </View>
-          <View style={styles.categoryCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryCard} onPress={()=>props.navigation.navigate("Category","mont")}>
             <View style={styles.categoryItem}>
               <Image 
                 style={styles.categoryImage}
@@ -121,8 +123,8 @@ import { actions } from '../../../store/actions'
               />
             </View>
             <Text style={styles.categoryName}>Mont</Text>
-          </View>
-          <View style={styles.categoryCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryCard} onPress={()=>props.navigation.navigate("Category","eldiven")}>
             <View style={styles.categoryItem}>
               <Image 
                 style={styles.categoryImage}
@@ -130,7 +132,7 @@ import { actions } from '../../../store/actions'
               />
             </View> 
             <Text style={styles.categoryName}>Eldiven</Text>  
-          </View>  
+          </TouchableOpacity>  
         </ScrollView>  
         <View style={styles.productTitleRow}> 
           <Text style={styles.categoryTitle}>Trenddekiler</Text>
@@ -141,7 +143,7 @@ import { actions } from '../../../store/actions'
       </View>
       <FlatList  
         data={product} 
-        renderItem={({item}) => <Product navigation={props.navigation} item={item}/>} 
+        renderItem={({item}) => <Product navigation={props.navigation} item={item} />} 
         numColumns={2} 
         key={(item) => item.id} 
         keyExtractor={item => item.id} 
@@ -156,38 +158,19 @@ import { actions } from '../../../store/actions'
         </View>
         <View style={styles.modalLine}></View>
         <ScrollView style={styles.modalBody}>
-          <View style={styles.notificationRow}>
-            <Bell style={styles.bell}/>
-            <View style={styles.textRow}>
-              <Text style={styles.modalTitle}>Title title tltl ögögö glglg</Text>
-              <Text>Body asdfas asdfas as sdaf ass sadf asv as dfas v xcsadfas asdf asdf  asdf asdf asdf asdfsadfsdaf asdf asdfsafsdaf asdfsadf asdf sdf sdfsdfsdfasdfasdsdf asdf asdf asd fasdfsadfasdf</Text>
+          {notification.map(item=> 
+          <>
+            <View style={styles.notificationRow}>
+              <Bell style={styles.bell}/>
+              <View style={styles.textRow}>
+                <Text style={styles.modalTitle}>{item.title}</Text>
+                <Text style={{paddingRight:20}}>{item.body}</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.modalLine}></View>
-          <View style={{padding:20,width:'100%',flexDirection:'row'}}>
-            <Bell style={{color:'black',marginTop:10}}/>
-            <View style={{marginLeft:20,minHeight:50}}>
-              <Text style={styles.modalTitle}>Title title tltl ögögö glglg</Text>
-              <Text>Body asdfas asdfas as sdaf ass sadf asv as dfas v xcsadfas asdf asdf  asdf asdf asdf asdfsadfsdaf asdf asdfsafsdaf asdfsadf asdf sdf sdfsdfsdfasdfasdsdf asdf asdf asd fasdfsadfasdf</Text>
-            </View>
-          </View>
-          <View style={styles.modalLine}></View>
-          <View style={{padding:20,width:'100%',flexDirection:'row'}}>
-            <Bell style={{color:'black',marginTop:10}}/>
-            <View style={{marginLeft:20,minHeight:50}}>
-              <Text style={styles.modalTitle}>Title title tltl ögögö glglg</Text>
-              <Text>Body asdfas asdfas as sdaf ass sadf asv as dfas v xcsadfas asdf asdf  asdf asdf asdf asdfsadfsdaf asdf asdfsafsdaf asdfsadf asdf sdf sdfsdfsdfasdfasdsdf asdf asdf asd fasdfsadfasdf</Text>
-            </View>
-          </View>
-          <View style={styles.modalLine}></View>
-          <View style={{padding:20,width:'100%',flexDirection:'row'}}>
-            <Bell style={{color:'black',marginTop:10}}/>
-            <View style={{marginLeft:20,minHeight:50}}>
-              <Text style={styles.modalTitle}>Title title tltl ögögö glglg</Text>
-              <Text>Body asdfas asdfas as sdaf ass sadf asv as dfas v xcsadfas asdf asdf  asdf asdf asdf asdfsadfsdaf asdf asdfsafsdaf asdfsadf asdf sdf sdfsdfsdfasdfasdsdf asdf asdf asd fasdfsadfasdf</Text>
-            </View>
-          </View>
-          <View style={styles.modalLine}></View>
+            <View style={styles.modalLine}></View>
+          </> )
+         }
+         
         </ScrollView>
       </Modal>
       </View>

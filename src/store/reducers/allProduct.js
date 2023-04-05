@@ -18,7 +18,7 @@ export const allProduct = createReducer(initialState, {
     return {
       ...state,
       status:'response',
-      type : response
+      product : action.response
     };
   },
 

@@ -62,7 +62,6 @@ export const styles = StyleSheet.create({
 
     starRow:{
         flexDirection:'row',
-        alignItems:'center',
         marginTop:11
     },
 

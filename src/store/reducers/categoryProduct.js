@@ -18,7 +18,7 @@ export const categoryProduct = createReducer(initialState, {
     return {
       ...state,
       status:'response',
-      type : response
+      categoryP : action.response
     };
   },
 

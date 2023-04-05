@@ -18,7 +18,7 @@ export const allBanner = createReducer(initialState, {
     return {
       ...state,
       status:'response',
-      type : response
+      banner : action.response
     };
   },
 

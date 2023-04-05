@@ -1,5 +1,4 @@
 import React from "react";
-import { color,Text } from "../../../assets/styles/styles";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -21,18 +20,17 @@ export const styles = StyleSheet.create({
         paddingHorizontal:10
       },
       title:{
-        fontSize:22,
+        fontSize:16,
         lineHeight:23,
         fontFamily:'DMSans-Bold',
-        color:'#3669C9'
+        color:'#000000',
+        marginLeft:120
       },
       area:{
         width:'100%',
         height:55,
         alignItems:'center',
         flexDirection:'row',
-        paddingLeft:85,
-        justifyContent:'space-between',
         paddingRight:25,
         paddingTop:16
       },
